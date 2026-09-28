@@ -1,0 +1,12 @@
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Accept-CH", "value": "sec-ch-ua-model, sec-ch-ua-platform-version, sec-ch-ua-full-version-list" },
+        { "key": "Permissions-Policy", "value": "ch-ua-model=(\"https://sdk-api-v1.singular.net\"), ch-ua-platform-version=(\"https://sdk-api-v1.singular.net\"), ch-ua-full-version-list=(\"https://sdk-api-v1.singular.net\")" }
+      ]
+    }
+  ]
+}

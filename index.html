@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+  <head>
+    <!-- Step 1: Singular Web SDK, lo más arriba posible en el <head> -->
+    <script src="https://web-sdk-cdn.singular.net/singular-sdk/latest/singular-sdk.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="google" content="notranslate" />
+    <link rel="icon" type="image/svg+xml" href="/brand/canasta-logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canasta · Súper en línea · Demo Singular</title>
+    <meta name="description" content="Demo de e-commerce con Singular Web SDK nativo: eventos estándar, cupones, banners y web-to-app." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      /* Espacio para el banner de Singular (fixed, arriba) mientras está visible */
+      body { padding-top: var(--singular-banner-offset, 0px); }
+      .MuiAppBar-positionSticky { top: var(--singular-banner-offset, 0px) !important; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
