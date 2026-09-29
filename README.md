@@ -9,12 +9,12 @@ Built with React, Vite, MUI and React Router, in Spanish, English and Portuguese
 | Guide step | Where |
 |---|---|
 | 1. SDK script in `<head>` | `index.html` |
-| 2. Init once + `pageVisit()` on SPA route changes (not on first load) | `src/main.jsx`, `src/App.jsx`, `src/lib/singular.js` |
+| 2. Init once on page load (sends the only `__PAGE_VISIT__`). This demo does not call `pageVisit()` on SPA route changes, so each page shows only business events | `src/main.jsx`, `src/lib/singular.js` |
 | 3. `event` / `conversionEvent` / `revenue` | `src/lib/store.jsx`, pages |
 | 4. `login(userId)` / `logout()`, `withCustomUserId` for returning users | `src/lib/store.jsx`, `src/main.jsx` |
 | 5. `withEventsDedupEnabled()` + revenue guard by transaction id | `src/lib/singular.js` |
 | 7. Web-to-app: the CTA is a real `<a>` whose `href` is replaced on click with `buildWebToAppLink()` (inspect it in DevTools); desktop QR uses the same link. `openApp()` is left commented as an alternative | `src/components/AppDownload.jsx` |
-| Banners: `withBannersSupport(new BannersOptions().withWebToAppSupport())`, `showBanner()`, hide/show on each route, Client Hints headers | `src/lib/singular.js`, `vite.config.js`, `vercel.json` |
+| Banners: `withBannersSupport(new BannersOptions().withWebToAppSupport())`, `showBanner()` once on load, Client Hints headers | `src/lib/singular.js`, `vite.config.js`, `vercel.json` |
 
 Product ID: `com.singularecommerce`.
 
@@ -22,7 +22,7 @@ Product ID: `com.singularecommerce`.
 
 | Action | Singular call | Name | Attributes |
 |---|---|---|---|
-| Page load / route change | `init` / `pageVisit()` | `__PAGE_VISIT__` | — |
+| Page load | `init` | `__PAGE_VISIT__` | — |
 | Category page | `event` | `sng_content_view_list` | `sng_attr_content_list`, `sng_attr_content_type` |
 | Product page | `event` | `sng_content_view` | `sng_attr_content_type`, `sng_attr_content_id`, `sng_attr_content`, `sng_attr_item_price` |
 | Search | `event` | `sng_search` | `sng_attr_content_type`, `sng_attr_search_string` |
@@ -50,7 +50,7 @@ Coupons: `BIENVENIDA10` (10%), `FLORES20` (20% on flowers and gifts), `ENVIOGRAT
 
 ## Notes
 
-- `hideBanner()` in Web SDK v1.4.10 throws when no banner is on screen (for example on desktop, where banners are not shown). The site wraps it so a banner error never breaks navigation.
+- `hideBanner()` in Web SDK v1.4.10 throws when no banner is on screen (for example on desktop, where banners are not shown). The Banners guide asks SPAs to hide and show the banner on each route; this demo only shows it once on load.
 - The banner is a fixed element at the top of the page; while it is visible the site adds top padding with its height.
 - The "Singular" button opens a debug panel with every SDK call, the Singular Device ID and the Custom User ID.
 

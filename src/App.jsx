@@ -1,22 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import SingularDebugPanel from './components/SingularDebugPanel';
-import { trackRouteChange } from './lib/singular';
 
 export default function App() {
   const { pathname } = useLocation();
-  const firstPath = useRef(pathname);
 
-  // SPA: pageVisit() + hide/show del banner en cada ruta nueva, no en la
-  // primera carga (esa visita la reporta init()).
+  // Singular solo registra la visita de la carga inicial (init). En una SPA la
+  // guía sugiere además pageVisit() en cada cambio de ruta; para esta demo no se
+  // usa, así cada página muestra solo los eventos de negocio.
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (pathname === firstPath.current) return;
-    firstPath.current = null;
-    trackRouteChange(pathname);
   }, [pathname]);
 
   return (

@@ -2,12 +2,13 @@
 // https://support.singular.net/hc/en-us/articles/41863502734619
 //
 // Step 1  script del SDK en <head> (index.html)
-// Step 2  initSingularSDK() una sola vez; pageVisit() en cada cambio de ruta (SPA)
+// Step 2  initSingularSDK() una sola vez al cargar (manda el único __PAGE_VISIT__).
+//         Para esta demo no se reporta pageVisit() en cada cambio de ruta de la SPA.
 // Step 3  event / conversionEvent / revenue con nombres estándar (sng_*)
 // Step 4  login(userId) / logout()
 // Step 5  deduplicación de eventos del SDK + guarda propia para revenue
 // Step 7  web-to-app con buildWebToAppLink / openApp
-// Banners withBannersSupport + showBanner, y hide/show en cada ruta (SPA)
+// Banners withBannersSupport + showBanner() una vez al cargar
 import {
   SINGULAR_LOG_LEVEL,
   SINGULAR_PRODUCT_ID,
@@ -81,33 +82,6 @@ function watchBannerOffset() {
   new MutationObserver(update).observe(document.body, { childList: true, subtree: true });
   window.addEventListener('resize', update);
   update();
-}
-
-// SPA: cada ruta nueva es una visita. La primera la reporta init().
-// Los banners se ocultan y se vuelven a pedir en cada ruta (guía de Banners).
-export function trackRouteChange(pathname) {
-  if (!sdkState.initialized) return;
-  sdk().pageVisit();
-  record('pageVisit', pathname);
-  reshowBanner();
-}
-
-// hideBanner() del SDK (WebSDK v1.4.10) lanza "Cannot read properties of null
-// (reading 'remove')" si no hay un banner en pantalla, por ejemplo en
-// escritorio, donde los banners no se muestran. Se aísla para que un fallo del
-// banner nunca rompa la navegación.
-function reshowBanner() {
-  try {
-    sdk().hideBanner();
-  } catch (e) {
-    record('hideBanner (sin banner visible)', 'banner', { error: e.message });
-  }
-  try {
-    sdk().showBanner();
-    record('showBanner', 'banner');
-  } catch (e) {
-    record('showBanner (error)', 'banner', { error: e.message });
-  }
 }
 
 // Cambio de idioma después del init: se actualiza la global property.
